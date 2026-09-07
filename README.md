@@ -12,9 +12,14 @@ app or its offline cache.
 ```
 index.html      ← the whole site (inline CSS + a few lines of JS, no build step)
 .nojekyll       ← lets GitHub Pages serve the files as-is
-screens/        ← put real screenshots here (see placeholders in index.html)
+screens/        ← app screenshots used on the page (site-register, due-list, equipment-form, trainee-logbook)
 og-image.png    ← 1200×630 social preview image (referenced in <head>)
 ```
+
+The screenshots are generated, not live captures: HTML mock-ups that reuse the
+app's own CSS with realistic sample data, rendered with headless Chrome. They
+track the live app at `https://vigilfire.github.io/app/` — when the app gains or
+changes a feature, refresh the copy here and re-shoot.
 
 ## Fill in the placeholders
 
@@ -26,8 +31,8 @@ Search `index.html` for `TODO` and `{{ }}`:
 | _(contact details)_ | Done — email `vigilfire1@gmail.com`, phone/WhatsApp `063 399 4805` |
 | `{{FORM_ID}}` | Done — the contact form posts to Formspree form `xwlklgvw`. Swap the id in the `<form action>` to change it, **or** switch to Netlify Forms — see the comment above the `<form>` |
 | footer entity line | Deferred — company not yet registered; once "Vigil Fire (Pty) Ltd" is registered, uncomment the line in the footer |
-| `screens/*.png` | Real screenshots — replace each `<div class="ph">…</div>` with `<img src="screens/name.png" alt="…">` |
-| `og-image.png` | A 1200×630 preview image for social/link unfurls |
+| `screens/*.png` | Done — four generated screenshots wired into `index.html` (see Structure note above) |
+| `og-image.png` | Done — 1200×630 branded card |
 | `<link rel="canonical">` / `og:url` | Your real domain |
 
 _Standards naming: the site consistently uses **SANS 1475-1** (not bare "SANS 1475")._
