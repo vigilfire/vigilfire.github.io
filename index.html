@@ -142,23 +142,44 @@
   .step p{margin:0; color:var(--muted); font-size:.94rem;}
 
   /* Pricing */
-  .price-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:36px; align-items:stretch;}
-  .plan{position:relative; background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:24px 22px;
-    display:flex; flex-direction:column; gap:15px; height:100%;}
-  .plan.feature{border-color:var(--red); box-shadow:0 14px 40px -18px rgba(200,16,46,.3);}
-  .plan .flag{position:absolute; top:-11px; left:22px; font-size:.66rem; font-weight:700; text-transform:uppercase;
-    letter-spacing:.09em; color:#fff; background:var(--red); padding:4px 10px; border-radius:5px;}
-  .plan h3{margin:0; font-size:1.15rem;}
-  .plan .who{margin:0; font-size:.88rem; color:var(--muted); min-height:2.7em;}
-  .plan .amount{font-size:1.9rem; font-weight:800; letter-spacing:-.02em; line-height:1; color:var(--ink);}
-  .plan .amount span{font-size:.88rem; font-weight:500; color:var(--muted); letter-spacing:0;}
-  .plan ul{list-style:none; margin:0; padding:16px 0 0; border-top:1px solid var(--line);
-    display:grid; gap:9px; font-size:.9rem; color:var(--ink-2); flex:1;}
-  .plan ul li{position:relative; padding-left:22px; line-height:1.4;}
-  .plan ul li::before{content:""; position:absolute; left:0; top:.24em; width:14px; height:14px; background:var(--red);
+  .tag{display:inline-block; font-size:.64rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em;
+    padding:3px 8px; border-radius:5px; white-space:nowrap;}
+  .tag.tbc{background:var(--bg-2); color:var(--muted); border:1px solid var(--line);}
+
+  .core-plan{margin-top:36px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:30px 32px;}
+  .core-plan__top{display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;}
+  .core-plan__name{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;}
+  .core-plan__name h3{margin:0;}
+  .core-plan__name .tag{align-self:center;}
+  .core-plan .amount{font-size:1.7rem; font-weight:800; letter-spacing:-.02em; color:var(--ink);}
+  .core-plan .amount span{font-size:.85rem; font-weight:500; color:var(--muted); letter-spacing:0;}
+  .core-plan .btn{flex-shrink:0;}
+
+  .tick-list{list-style:none; margin:18px 0 0; padding:18px 0 0; border-top:1px solid var(--line);
+    display:grid; grid-template-columns:1fr 1fr; gap:9px 24px; font-size:.9rem; color:var(--ink-2);}
+  .tick-list li{position:relative; padding-left:22px; line-height:1.4;}
+  .tick-list li::before{content:""; position:absolute; left:0; top:.24em; width:14px; height:14px; background:var(--red);
     -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/13px no-repeat;
             mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/13px no-repeat;}
-  .plan .btn{width:100%; justify-content:center;}
+
+  .modules-head{margin-top:44px;}
+  .modules-head h3{margin:0; font-size:1.3rem;}
+  .modules-head p{margin:6px 0 0; color:var(--muted); font-size:.94rem; max-width:60ch;}
+
+  .modules-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:22px; align-items:stretch;}
+  .module{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:22px 20px;
+    display:flex; flex-direction:column; height:100%;}
+  .module h4{margin:0; font-size:1.02rem; font-weight:700; letter-spacing:-.01em;}
+  .module .tag{margin-top:8px;}
+  .module .amount{margin-top:8px; font-size:1.3rem; font-weight:800; letter-spacing:-.02em; color:var(--ink);}
+  .module .amount span{font-size:.78rem; font-weight:500; color:var(--muted); letter-spacing:0;}
+  .module .tick-list{grid-template-columns:1fr; margin-top:14px; padding-top:14px; font-size:.88rem; flex:1;}
+
+  .addon-row{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:16px;}
+  .addon{background:#fff; border:1px dashed var(--line); border-radius:10px; padding:14px 16px; text-align:center;}
+  .addon .label{display:block; font-size:.82rem; color:var(--muted); font-weight:600;}
+  .addon .price{display:block; margin-top:5px; font-size:1.08rem; font-weight:800; color:var(--ink); letter-spacing:-.01em;}
+
   .price-foot{margin-top:24px; font-size:.92rem; color:var(--muted); max-width:74ch;}
   .price-foot b{color:var(--ink-2); font-weight:650;}
 
@@ -196,14 +217,16 @@
   footer .fine{margin-top:26px; padding-top:20px; border-top:1px solid var(--line-dark); color:#7b828a;}
 
   @media (max-width:900px){
-    .grid, .steps, .panel .std-grid, .price-grid{grid-template-columns:1fr 1fr;}
+    .grid, .steps, .panel .std-grid, .modules-grid, .addon-row{grid-template-columns:1fr 1fr;}
     .split{grid-template-columns:1fr; gap:28px;}
     .split.reverse .txt{order:0;}
     .contact-grid{grid-template-columns:1fr; gap:28px;}
   }
   @media (max-width:680px){
     .section{padding:52px 0;}
-    .grid, .steps, .panel .std-grid, .price-grid{grid-template-columns:1fr;}
+    .grid, .steps, .panel .std-grid, .modules-grid, .addon-row{grid-template-columns:1fr;}
+    .tick-list{grid-template-columns:1fr;}
+    .core-plan__top{flex-direction:column; align-items:flex-start; gap:16px;}
     .nav-links{display:none;}
     .nav-links.open{display:flex; position:absolute; left:0; right:0; top:64px; flex-direction:column; align-items:stretch; gap:0;
       background:var(--charcoal-2); border-bottom:1px solid var(--line-dark); padding:6px 0;}
@@ -457,65 +480,86 @@
 <section class="section bg-2" id="pricing">
   <div class="wrap">
     <span class="eyebrow">Pricing</span>
-    <h2>Priced on your team, not on compliance</h2>
-    <p class="lead">The calibration register, the audit trail and your SAQCC details on every certificate are in every paid plan. What scales is how many people use it.</p>
+    <h2>Vigil Core, plus the modules you run</h2>
+    <p class="lead">Every company starts on Vigil&nbsp;Core — sites, maintenance forms and registers. Add client reporting, trainees, workshop compliance or auditing as modules, and add seats as you grow.</p>
 
-    <div class="price-grid">
-      <div class="plan">
-        <h3>Inspection&#8209;only</h3>
-        <p class="who">For contractors who inspect on site and send units out.</p>
-        <div class="amount">R249 <span>/ month</span></div>
-        <ul>
-          <li>1 admin &middot; 1 inspector</li>
-          <li>Monthly SANS&nbsp;10105&#8209;1 inspections</li>
-          <li>Printable site register &amp; monthly log</li>
-          <li>Email to the site &middot; full history &amp; backup</li>
-        </ul>
-        <a class="btn ghost" href="#contact">Book a demo</a>
-      </div>
-
-      <div class="plan">
-        <h3>Starter</h3>
-        <p class="who">For a one&#8209;person operation or a single&#8209;crew workshop.</p>
-        <div class="amount">R499 <span>/ month</span></div>
-        <ul>
-          <li>1 admin &middot; 1 technician</li>
-          <li>Full maintenance &amp; inspection form</li>
-          <li>SANS&nbsp;1475 Annex&nbsp;A calibration register</li>
-          <li>Certificate of Maintenance &amp; every report</li>
-        </ul>
-        <a class="btn ghost" href="#contact">Book a demo</a>
-      </div>
-
-      <div class="plan feature">
-        <span class="flag">Most workshops</span>
-        <h3>Growth</h3>
-        <p class="who">For an established company with a field team.</p>
-        <div class="amount">R1,299 <span>/ month</span></div>
-        <ul>
-          <li>2 admins &middot; 5 technicians</li>
-          <li>Everything in Starter</li>
-          <li>Remove Vigil&nbsp;Fire branding from client PDFs</li>
-          <li>Priority email support</li>
-        </ul>
+    <div class="core-plan">
+      <div class="core-plan__top">
+        <div class="core-plan__name">
+          <h3>Vigil Core</h3>
+          <div class="amount">R2,499 <span>/ month</span></div>
+        </div>
         <a class="btn" href="#contact">Book a demo</a>
       </div>
+      <ul class="tick-list">
+        <li>1 admin login</li>
+        <li>3 technician logins</li>
+        <li>Unlimited sites</li>
+        <li>Maintenance forms</li>
+        <li>Site registers</li>
+        <li>Vigil&nbsp;Fire branding on every document</li>
+        <!--
+          Monthly SANS 10105-1 responsible-person inspections live in Vigil Core, but aren't
+          called out publicly yet — how "inspection" is named and packaged under this module
+          structure is still to be decided. Uncomment (and word it) once that's settled:
+          <li>Monthly SANS 10105-1 inspections</li>
+        -->
+      </ul>
+    </div>
 
-      <div class="plan">
-        <h3>Business</h3>
-        <p class="who">For a larger operation running multiple crews.</p>
-        <div class="amount">R2,499 <span>/ month</span></div>
-        <ul>
-          <li>3 admins &middot; 10 technicians</li>
-          <li>Everything in Growth</li>
-          <li>2 SAQCC trainee logbooks included</li>
-          <li>Onboarding call — first site loaded with you</li>
+    <div class="modules-head">
+      <h3>Add a module</h3>
+      <p>Each module attaches to Vigil Core for every user who needs it.</p>
+    </div>
+    <div class="modules-grid">
+      <div class="module">
+        <h4>Client Module</h4>
+        <div class="amount">R1,599 <span>/ month</span></div>
+        <ul class="tick-list">
+          <li>Certificate of Maintenance — your company branding &amp; logo</li>
+          <li>Pressure test report</li>
+          <li>Recharge report</li>
+          <li>Condemned&#8209;unit report, with 7&#8209;day client feedback</li>
+          <li>Email documents direct to the client</li>
         </ul>
-        <a class="btn ghost" href="#contact">Book a demo</a>
+      </div>
+      <div class="module">
+        <h4>Trainee Module</h4>
+        <div class="amount">R1,449 <span>/ month</span></div>
+        <ul class="tick-list">
+          <li>2 trainee logins</li>
+          <li>Logbook &amp; competency functions</li>
+        </ul>
+      </div>
+      <div class="module">
+        <h4>Workshop Module</h4>
+        <div class="amount">R1,899 <span>/ month</span></div>
+        <ul class="tick-list">
+          <li>Weekly verification function &amp; report</li>
+          <li>Toolbox talks and mandatory&#8209;training functions &amp; reports</li>
+        </ul>
+      </div>
+      <div class="module">
+        <h4>Auditing Module</h4>
+        <div class="amount">R1,799 <span>/ month</span></div>
+        <ul class="tick-list">
+          <li>Everything that falls under auditing</li>
+        </ul>
       </div>
     </div>
 
-    <p class="price-foot">Add technicians at <b>R249/mo</b>, SAQCC trainee logbooks at <b>R149/mo</b>, or extra admin logins at <b>R149/mo</b> — on any plan, or the Audit &amp; compliance pack at <b>R399/mo</b> (includes 1 workshop, <b>+R279/mo</b> per additional workshop) — covers employee documents, tools, vehicles, Mark Permits and SANAS calibration certificates. Annual billing is <b>two months free</b>, paid upfront. Unlimited client sites on every plan. All prices exclude VAT.</p>
+    <div class="modules-head">
+      <h3>Add-ons</h3>
+      <p>On top of Vigil Core or any module.</p>
+    </div>
+    <div class="addon-row">
+      <div class="addon"><span class="label">Individual technician</span><span class="price">R249/mo</span></div>
+      <div class="addon"><span class="label">Individual admin</span><span class="price">R149/mo</span></div>
+      <div class="addon"><span class="label">Individual trainee</span><span class="price">R149/mo</span></div>
+      <div class="addon"><span class="label">Additional workshop</span><span class="price">R279/mo</span></div>
+    </div>
+
+    <p class="price-foot">Annual billing is <b>two months free</b>, paid upfront. Unlimited client sites on Vigil&nbsp;Core. All prices exclude VAT.</p>
   </div>
 </section>
 
