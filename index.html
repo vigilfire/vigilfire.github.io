@@ -4,18 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vigil Fire — the SANS-compliant fire equipment register</title>
-<meta name="description" content="Vigil Fire is a field-first fire equipment register for South African fire equipment maintenance companies. Site registers, maintenance, pressure tests, recharges, calibration and SAQCC trainee logbooks — built around SANS 1475-1 and SANS 543.">
+<meta name="description" content="Vigil Fire is a field-first fire equipment register for South African fire equipment maintenance companies. Site registers, maintenance, pressure tests, recharges, verification and SAQCC trainee logbooks — built around SANS 1475-1 and SANS 543.">
 <!-- "monthly inspections" and "SANS 10105-1" removed from this description pending the
      same naming decision noted at the Vigil Core pricing card and elsewhere in this file. -->
 <meta name="theme-color" content="#191C20">
-<link rel="canonical" href="https://vigilfire.co.za/">
+<!-- Canonical / og:url / og:image point at the GitHub Pages address because
+     vigilfire.co.za isn't registered yet (no DNS). Once the domain is live and
+     set as this repo's Pages custom domain, switch these three, robots.txt and
+     sitemap.xml back to https://vigilfire.co.za/. -->
+<link rel="canonical" href="https://vigilfire.github.io/">
 
 <!-- Open Graph / social -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Vigil Fire — the SANS-compliant fire equipment register">
-<meta property="og:description" content="Retire the paper register. Site records, maintenance, pressure tests, recharges, calibration and SAQCC trainee logbooks — emailed to the site, print or PDF.">
-<meta property="og:url" content="https://vigilfire.co.za/">
-<meta property="og:image" content="https://vigilfire.co.za/og-image.png">
+<meta property="og:description" content="Retire the paper register. Site records, maintenance, pressure tests, recharges, verification and SAQCC trainee logbooks — emailed to the site, print or PDF.">
+<meta property="og:url" content="https://vigilfire.github.io/">
+<meta property="og:image" content="https://vigilfire.github.io/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -46,12 +50,15 @@
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto;} }
+  /* Keep anchored sections clear of the 67px sticky header when jumped to. */
+  [id]{scroll-margin-top:76px;}
   body{
     margin:0; background:var(--bg); color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     line-height:1.6; -webkit-font-smoothing:antialiased;
   }
-  img{max-width:100%; display:block;}
+  img{max-width:100%; height:auto; display:block;}
   a{color:var(--red); text-decoration:none;}
   a:hover{text-decoration:underline;}
   h1,h2,h3{margin:0 0 .5em; font-weight:700; letter-spacing:-0.02em; line-height:1.15;}
@@ -92,6 +99,7 @@
   .nav-links a:hover{color:#fff; text-decoration:none;}
   .nav-cta{display:flex; align-items:center; gap:12px;}
   .nav-cta .login{color:#fff; font-weight:600; font-size:.92rem;}
+  .nav-links .nav-login{display:none;}
   .nav-toggle{display:none; background:none; border:1px solid rgba(255,255,255,.25); border-radius:7px; width:38px; height:38px; color:#fff; cursor:pointer;}
   .nav-toggle svg{width:20px; height:20px;}
 
@@ -147,6 +155,11 @@
   .tag{display:inline-block; font-size:.64rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em;
     padding:3px 8px; border-radius:5px; white-space:nowrap;}
   .tag.tbc{background:var(--bg-2); color:var(--muted); border:1px solid var(--line);}
+  /* Which plan a feature belongs to — Vigil Core (neutral) or a module (red tint) */
+  .tag.core{background:var(--bg-2); color:var(--ink-2); border:1px solid var(--line);}
+  .tag.mod{background:#fdecef; color:var(--red-dark); border:1px solid #f6c9d1;}
+  .card .tag{margin-bottom:8px;}
+  .txt .tag{margin-bottom:14px;}
 
   .core-plan{margin-top:36px; background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:30px 32px;}
   .core-plan__top{display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;}
@@ -189,7 +202,9 @@
   .panel{background:var(--charcoal); color:#fff; border-radius:16px; padding:44px; border-top:3px solid var(--red);}
   .panel h2{color:#fff;}
   .panel .lead{color:#c4c8cd;}
-  .panel .std-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:26px;}
+  /* auto-fit, not a fixed 3: with the SANS 10105-1 card parked there are only
+     two cards, and a fixed 3-column grid left an empty slot. */
+  .panel .std-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin-top:26px;}
   .panel .std-card{background:var(--charcoal-2); border:1px solid var(--line-dark); border-radius:10px; padding:18px;}
   .panel .std-card b{display:block; font-size:.95rem; margin-bottom:4px;}
   .panel .std-card span{font-size:.86rem; color:#9aa0a7;}
@@ -216,26 +231,34 @@
   footer .cols{display:flex; flex-wrap:wrap; justify-content:space-between; gap:24px; align-items:flex-start;}
   footer a{color:#c9ccd1;}
   footer .foot-links{display:flex; gap:22px; flex-wrap:wrap;}
-  footer .fine{margin-top:26px; padding-top:20px; border-top:1px solid var(--line-dark); color:#7b828a;}
+  footer .fine{margin-top:26px; padding-top:20px; border-top:1px solid var(--line-dark); color:#8a9099;}
+  .form-status{margin:0; font-size:.92rem; font-weight:600;}
+  .form-status.ok{color:#1d7a3a;}
+  .form-status.err{color:var(--red-dark);}
+  .hp{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;}
 
   @media (max-width:900px){
     .grid, .steps, .panel .std-grid, .modules-grid, .addon-row{grid-template-columns:1fr 1fr;}
     .split{grid-template-columns:1fr; gap:28px;}
     .split.reverse .txt{order:0;}
     .contact-grid{grid-template-columns:1fr; gap:28px;}
+    /* The five nav links + Log in + Book a demo stop fitting on one line
+       below ~900px, so the menu collapses behind the toggle from here. */
+    .nav-links{display:none;}
+    .nav-links.open{display:flex; position:absolute; left:0; right:0; top:64px; flex-direction:column; align-items:stretch; gap:0;
+      background:var(--charcoal-2); border-bottom:1px solid var(--line-dark); padding:6px 0;}
+    .nav-links.open a{padding:12px 20px;}
+    .nav-toggle{display:inline-flex; align-items:center; justify-content:center;}
   }
   @media (max-width:680px){
     .section{padding:52px 0;}
     .grid, .steps, .panel .std-grid, .modules-grid, .addon-row{grid-template-columns:1fr;}
     .tick-list{grid-template-columns:1fr;}
     .core-plan__top{flex-direction:column; align-items:flex-start; gap:16px;}
-    .nav-links{display:none;}
-    .nav-links.open{display:flex; position:absolute; left:0; right:0; top:64px; flex-direction:column; align-items:stretch; gap:0;
-      background:var(--charcoal-2); border-bottom:1px solid var(--line-dark); padding:6px 0;}
-    .nav-links.open a{padding:12px 20px;}
     .nav-cta .login{display:none;}
+    /* The header's Log in link is hidden at this width, so it moves into the menu. */
+    .nav-links.open .nav-login{display:block;}
     .nav-cta .btn{padding:9px 14px; font-size:.88rem;}
-    .nav-toggle{display:inline-flex; align-items:center; justify-content:center;}
     .hero{padding-bottom:120px;}
     .shot-wrap{margin-top:-88px;}
     .panel{padding:28px;}
@@ -257,11 +280,12 @@
       <a href="#compliance">Compliance</a>
       <a href="#pricing">Pricing</a>
       <a href="#contact">Contact</a>
+      <a class="nav-login" href="https://vigilfire.github.io/app/">Log in</a>
     </nav>
     <div class="nav-cta">
       <a class="login" href="https://vigilfire.github.io/app/">Log in</a>
       <a class="btn" href="#contact">Book a demo</a>
-      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <button type="button" class="nav-toggle" id="navToggle" aria-label="Menu" aria-controls="navLinks" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
     </div>
@@ -273,7 +297,7 @@
   <div class="wrap">
     <span class="eyebrow">Fire equipment register &amp; maintenance</span>
     <h1>Retire the paper register.</h1>
-    <p class="lead">Vigil Fire is a simplified and user friendly digital register for South African fire equipment maintenance companies. Your technicians maintain equipment on site — online or off — and the site register, maintenance certificate and every SANS report comes out the other side.</p>
+    <p class="lead">Vigil Fire is a simple, user-friendly digital register for South African fire equipment maintenance companies. Your technicians maintain equipment on site — online or off — and the site register, maintenance certificate and every SANS report comes out the other side.</p>
     <div class="hero-actions">
       <a class="btn on-dark" href="#contact">Book a demo</a>
       <a class="btn outline-dark" href="#features">See what it does</a>
@@ -288,7 +312,7 @@
 <div class="shot-wrap">
   <div class="shot">
     <div class="bar"><i></i><i></i><i></i></div>
-    <img src="screens/site-register.png" alt="A Vigil Fire site register — equipment list with status, due items and one-tap printable register and certificate">
+    <img src="screens/site-register.png" width="2480" height="2420" fetchpriority="high" alt="A Vigil Fire site register — equipment list with status, due items and one-tap printable register and certificate">
   </div>
 </div>
 
@@ -322,21 +346,25 @@
     <div class="grid">
       <div class="card">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2M10 6h4M10 10h4M10 14h4"/></svg></div>
+        <span class="tag core">Vigil Core</span>
         <h3>Site registers</h3>
-        <p>Every site's equipment, current status and what's due — one tap to a multi-page printable register or a certificate of maintenance.</p>
+        <p>Every site's equipment, current status and what's due — one tap to a multi-page printable register, and with the Client Module, a certificate of maintenance.</p>
       </div>
       <div class="card">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg></div>
+        <span class="tag core">Vigil Core</span>
         <h3>Maintenance &amp; inspection</h3>
         <p>Type-specific checklists, auto next-maintenance dates, recorded mass at maintenance, and every-visit seal renewal — all on the one form.</p>
       </div>
       <div class="card">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14 16 10"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg></div>
+        <span class="tag core">Vigil Core</span>
         <h3>Pressure &amp; hydrostatic tests</h3>
         <p>5- and 10-year intervals tracked from the last test. Record the Annex&nbsp;G procedure, test pressure and result — with the technician's SAQCC number.</p>
       </div>
       <div class="card">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></svg></div>
+        <span class="tag core">Vigil Core</span>
         <h3>Recharge workflow</h3>
         <p>Flag a unit for recharge and it stays on the Due list until it's back and logged — pressure before and after, medium and checklist. The register won't generate while a recharge is outstanding.</p>
       </div>
@@ -350,23 +378,27 @@
       -->
       <div class="card">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M5 21h14M3 7l3-4 3 4a3 3 0 0 1-6 0ZM15 7l3-4 3 4a3 3 0 0 1-6 0Z"/></svg></div>
+        <span class="tag mod">Workshop Module</span>
         <h3>Verification register</h3>
         <p>Weekly checks of your workshop scales and pressure gauges against reference instruments (SANS&nbsp;1475-1 Annex&nbsp;A), assignable to a named technician.</p>
       </div>
       <div class="card">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <span class="tag core">Vigil Core</span>
         <h3>Technicians &amp; permissions</h3>
-        <p>Add technician and trainee logins in-app — no console fiddling. SAQCC numbers on every record, technicians assigned to their own sites, verification rights granted per person, and a leaver deactivated without losing their history.</p>
+        <p>Add technician logins yourself, in the app (and trainee logins with the Trainee Module). SAQCC numbers on every record, technicians assigned to their own sites, permissions granted per person, and a leaver's access cut off without losing their history.</p>
       </div>
       <div class="card">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></div>
+        <span class="tag mod">Client Module</span>
         <h3>Letterheaded reports</h3>
-        <p>Site register, certificate of maintenance, pressure-test report, recharge report<!-- and monthly log --> — headed with your company profile and authorised signature. Print, save as PDF, or email straight to the site from your account, with a record of every document sent.</p>
+        <p>Certificate of maintenance, pressure-test report, recharge report and condemned-unit notice<!-- and monthly log --> — headed with your company profile and authorised signature. Print, save as PDF, or email straight to the site from your account, with a record of every document sent.</p>
       </div>
       <div class="card">
         <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <span class="tag core">Vigil Core</span>
         <h3>Records that hold up</h3>
-        <p>An immutable audit trail behind every change, plus a scheduled full backup — so the SANS&nbsp;1475-1 five-year retention requirement is genuinely met.</p>
+        <p>An immutable audit trail behind every change, recorded on the server, plus a full records backup with scheduled reminders — built for the SANS&nbsp;1475-1 five-year retention requirement.</p>
       </div>
     </div>
   </div>
@@ -387,7 +419,7 @@
     </div>
     <div class="shot">
       <div class="bar"><i></i><i></i><i></i></div>
-      <img src="screens/due-list.png" alt="The Due &amp; overdue dashboard — overdue and upcoming items across every site, sorted most urgent first">
+      <img src="screens/due-list.png" width="2480" height="2047" loading="lazy" alt="The Due &amp; overdue dashboard — overdue and upcoming items across every site, sorted most urgent first">
 
     </div>
   </div>
@@ -399,7 +431,7 @@
     <div class="txt">
       <span class="eyebrow">Built for the field</span>
       <h2>No signal in the basement? No problem.</h2>
-      <p>Vigil Fire installs on a device similar to an app and works fully offline. A technician can maintain an entire building with no reception; everything syncs the moment they're back on the network. An online/offline indicator tells them where they stand.</p>
+      <p>Vigil Fire installs like an app and works fully offline. A technician can maintain an entire building with no reception; everything syncs the moment they're back on the network. An online/offline indicator tells them where they stand.</p>
       <ul class="check-list">
         <li>Installable on any phone or tablet — nothing to download from a store</li>
         <li>Photos captured on site, resized and uploaded automatically</li>
@@ -408,7 +440,7 @@
     </div>
     <div class="shot">
       <div class="bar"><i></i><i></i><i></i></div>
-      <img src="screens/equipment-form.png" alt="The combined equipment and inspection form — identity, maintenance, mass check, pressure test and recharge on one screen">
+      <img src="screens/equipment-form.png" width="2480" height="2920" loading="lazy" alt="The combined equipment and inspection form — identity, maintenance, mass check, pressure test and recharge on one screen">
 
     </div>
   </div>
@@ -420,6 +452,7 @@
     <div class="txt">
       <span class="eyebrow">Bring on the next technician</span>
       <h2>The SAQCC trainee logbook, done properly</h2>
+      <span class="tag mod">Trainee Module</span>
       <p>Register a trainee for their minimum six months of supervised field training and the paper daily logbook moves into the app. The trainee logs each workshop or on-the-job day; only the registered technician who was actually there can sign it off, and a signed entry locks.</p>
       <ul class="check-list">
         <li>33-point competency checklist — each one achieved only after four dated technician observations</li>
@@ -429,7 +462,7 @@
     </div>
     <div class="shot">
       <div class="bar"><i></i><i></i><i></i></div>
-      <img src="screens/trainee-logbook.png" alt="A trainee's view in Vigil Fire — supervised training status, a daily logbook with signed and awaiting-sign-off entries, and competency progress">
+      <img src="screens/trainee-logbook.png" width="2480" height="2400" loading="lazy" alt="A trainee's view in Vigil Fire — supervised training status, a daily logbook with signed and awaiting-sign-off entries, and competency progress">
     </div>
   </div>
 </section>
@@ -450,7 +483,7 @@
       </div>
       <div class="step">
         <h3>Generate &amp; file</h3>
-        <p>Sign the site off, then print, email or PDF the register and certificate. Reports and the records backup are a tap away.</p>
+        <p>Sign the site off, then print or PDF the register — and with the Client Module, issue the certificate and email it straight to the site. The records backup is a tap away.</p>
       </div>
     </div>
   </div>
@@ -504,7 +537,7 @@
         <li>Unlimited sites</li>
         <li>Maintenance forms</li>
         <li>Site registers</li>
-        <li>Email and Chat support</li>
+        <li>Email and WhatsApp support</li>
         <!--
           Monthly SANS 10105-1 responsible-person inspections live in Vigil Core, but aren't
           called out publicly yet — how "inspection" is named and packaged under this module
@@ -550,13 +583,11 @@
         <h4>For Your Audit</h4>
         <div class="amount">R1,999 <span>/ month</span></div>
         <ul class="tick-list">
-          <li>Company Documentsrecord</li>
-          <li>Calibration register and supporting document support</li>
+          <li>Company documents record</li>
+          <li>Calibration register with supporting documents</li>
           <li>Employee documents with job description, training records, responsibility assignments and delegations</li>
           <li>PPE tracking and report</li>
           <li>Tool tracking and report</li>
-
-
         </ul>
       </div>
     </div>
@@ -596,7 +627,9 @@
         form at https://formspree.io and swap the id in the action below. Or, if
         you host on Netlify, delete the action/method and add: <form name="contact" netlify>
       -->
-      <form class="contact" action="https://formspree.io/f/xwlklgvw" method="POST">
+      <form class="contact" id="contactForm" action="https://formspree.io/f/xwlklgvw" method="POST">
+        <!-- Honeypot: Formspree silently drops submissions that fill this in. -->
+        <label class="hp" aria-hidden="true">Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
         <label for="f-name">Name</label>
         <input id="f-name" name="name" type="text" required autocomplete="name">
         <label for="f-company">Company</label>
@@ -606,6 +639,7 @@
         <label for="f-msg">How can we help?</label>
         <textarea id="f-msg" name="message" required></textarea>
         <button class="btn" type="submit">Send</button>
+        <p class="form-status" id="formStatus" role="status" aria-live="polite" hidden></p>
       </form>
 
       <dl class="contact-detail">
@@ -647,8 +681,37 @@
 <script>
   // Mobile nav
   var t = document.getElementById('navToggle'), l = document.getElementById('navLinks');
-  t.addEventListener('click', function(){ l.classList.toggle('open'); });
-  l.addEventListener('click', function(e){ if(e.target.tagName === 'A') l.classList.remove('open'); });
+  function setMenu(open){ l.classList.toggle('open', open); t.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+  t.addEventListener('click', function(){ setMenu(!l.classList.contains('open')); });
+  l.addEventListener('click', function(e){ if(e.target.tagName === 'A') setMenu(false); });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && l.classList.contains('open')){ setMenu(false); t.focus(); }
+  });
+
+  // Contact form: send in place so the visitor stays on the page and sees a
+  // confirmation, rather than landing on Formspree's own thank-you page. If
+  // anything about the in-page send fails, fall back to a normal form post,
+  // so an enquiry is never lost to a script error.
+  (function(){
+    var form = document.getElementById('contactForm'), status = document.getElementById('formStatus');
+    if(!form || !window.fetch || !window.FormData) return;
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var btn = form.querySelector('button[type=submit]');
+      btn.disabled = true; btn.textContent = 'Sending…';
+      status.hidden = true;
+      fetch(form.action, { method:'POST', body:new FormData(form), headers:{ 'Accept':'application/json' } })
+        .then(function(res){
+          if(!res.ok) throw new Error('HTTP ' + res.status);
+          form.reset();
+          status.className = 'form-status ok';
+          status.textContent = 'Thanks, your message has been sent. We\'ll be in touch shortly.';
+          status.hidden = false;
+          btn.disabled = false; btn.textContent = 'Send';
+        })
+        .catch(function(){ form.submit(); });
+    });
+  })();
   // Footer year
   document.getElementById('year').textContent = new Date().getFullYear();
 </script>

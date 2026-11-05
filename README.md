@@ -1,7 +1,7 @@
 # Vigil Fire — marketing site
 
 A standalone, single-file marketing site for **Vigil Fire** (the fire-equipment
-register app, which lives in its own separate repo — `Fire-Equipment-Register`).
+register app, which lives in its own separate repo — `vigilfire/app`).
 
 Keep this repo separate from the app: different audience, different release
 cadence, and a marketing change should never be able to break the compliance
@@ -14,6 +14,8 @@ index.html      ← the whole site (inline CSS + a few lines of JS, no build ste
 .nojekyll       ← lets GitHub Pages serve the files as-is
 screens/        ← app screenshots used on the page (site-register, due-list, equipment-form, trainee-logbook)
 og-image.png    ← 1200×630 social preview image (referenced in <head>)
+robots.txt      ← points crawlers at sitemap.xml
+sitemap.xml     ← the one-page sitemap
 ```
 
 The screenshots are generated, not live captures: HTML mock-ups that reuse the
@@ -33,7 +35,7 @@ Search `index.html` for `TODO` and `{{ }}`:
 | footer entity line | Deferred — company not yet registered; once "Vigil Fire (Pty) Ltd" is registered, uncomment the line in the footer |
 | `screens/*.png` | Done — four generated screenshots wired into `index.html` (see Structure note above) |
 | `og-image.png` | Done — 1200×630 branded card |
-| `<link rel="canonical">` / `og:url` | Your real domain |
+| `<link rel="canonical">` / `og:url` / `og:image`, `robots.txt`, `sitemap.xml` | Currently `https://vigilfire.github.io/`, because `vigilfire.co.za` isn't registered yet. Once the domain is live and set as this repo's Pages custom domain, switch all five back to `https://vigilfire.co.za/` |
 
 _Standards naming: the site consistently uses **SANS 1475-1** (not bare "SANS 1475")._
 
@@ -62,6 +64,6 @@ to `/` (root). Add the custom domain in the dashboard.
 | | Where |
 |---|---|
 | Marketing site (this repo) | `vigilfire.co.za` |
-| The app (`Fire-Equipment-Register` repo) | `https://vigilfire.github.io/app/` (GitHub Pages) |
+| The app (`vigilfire/app` repo) | `https://vigilfire.github.io/app/` (GitHub Pages) |
 
 The "Log in" links in this site point at the app's GitHub Pages URL.
